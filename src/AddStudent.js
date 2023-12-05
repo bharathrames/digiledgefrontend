@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useState }from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
@@ -8,9 +8,11 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function AddStudent() {
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
 
   const initialValues = {
     name: '',
@@ -26,6 +28,7 @@ function AddStudent() {
 
   const onSubmit = async (values) => {
     try {
+      setIsLoading(true);
       const response = await fetch('https://digiledge.onrender.com/api/addStudent', {
         method: 'POST',
         headers: {
@@ -43,6 +46,8 @@ function AddStudent() {
       console.error('Error adding student:', error);
 
       toast.error('Error adding student');
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -106,8 +111,12 @@ function AddStudent() {
             error={formik.touched.Education && Boolean(formik.errors.Education)}
             helperText={formik.touched.Education && formik.errors.Education}
           />
-          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 3 }}>
-            Add Student
+          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 3 }} disabled={isLoading}>
+          {isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              'Add Student'
+            )}
           </Button>
         </Box>
       </Box>

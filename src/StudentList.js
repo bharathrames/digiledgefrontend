@@ -10,8 +10,9 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from './Loading';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required'),
@@ -23,6 +24,7 @@ function StudentList() {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchStudents();
@@ -38,19 +40,20 @@ function StudentList() {
     onSubmit: async (values) => {
       if (editMode) {
         await handleUpdateClick(values);
-      } else {
-
       }
     },
   });
 
   const fetchStudents = async () => {
     try {
+      setLoading(true);
       const response = await fetch('https://digiledge.onrender.com/api/getStudents');
       const data = await response.json();
       setStudents(data);
     } catch (error) {
       console.error('Error fetching students:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -110,34 +113,44 @@ function StudentList() {
       console.error('Error deleting student:', error);
     }
   };
+
   return (
     <div>
-      <Typography variant="h2" className="studentlist">Student List</Typography>
-      <Grid container spacing={3}>
-        {students.map((student) => (
-          <Grid item key={student._id} xs={12} sm={6} md={4} lg={3}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6">{student.name}</Typography>
-                <Typography variant="body2">Age: {student.age}</Typography>
-                <Typography variant="body2">Education: {student.Education}</Typography>
-              </CardContent>
-              <CardActions>
-                <Button color="primary" onClick={() => handleEditClick(student)}>
-                  Edit
-                </Button>
-                <Button color="secondary" onClick={() => handleDeleteClick(student._id)}>
-                  Delete
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      <Typography variant="h2" className="studentlist">
+        Student List
+      </Typography>
+
+      {loading ? (
+        <Loading />
+      ) : (
+        <Grid container spacing={3}>
+          {students.map((student) => (
+            <Grid item key={student._id} xs={12} sm={6} md={4} lg={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">{student.name}</Typography>
+                  <Typography variant="body2">Age: {student.age}</Typography>
+                  <Typography variant="body2">Education: {student.Education}</Typography>
+                </CardContent>
+                <CardActions>
+                  <Button color="primary" onClick={() => handleEditClick(student)}>
+                    Edit
+                  </Button>
+                  <Button color="secondary" onClick={() => handleDeleteClick(student._id)}>
+                    Delete
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       {editMode && selectedStudent && (
         <div className="mt-3">
-          <Typography variant="h3" className="studentlist">Edit Student</Typography>
+          <Typography variant="h3" className="studentlist">
+            Edit Student
+          </Typography>
           <form onSubmit={formik.handleSubmit}>
             <TextField
               label="Name"
