@@ -1,0 +1,28 @@
+#welcomecontent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("https://t3.ftcdn.net/jpg/01/68/88/70/360_F_168887015_XPHzRXA8pwSFyhzV1Umc51jQZCAMy5OM.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  
+  #welcomecontent  {
+    font-size: 5em;
+    position: relative;
+    color: black;
+    text-transform: uppercase;
+    font-family: 'Arial', sans-serif;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    transition: text-shadow 0.3s ease; 
+  }
+  
+  #welcomecontent :hover {
+    text-shadow: 5px 5px 8px rgba(0, 0, 0, 0.8); 
+  }
+  .studentlist{
+    text-align: center;
+  }
