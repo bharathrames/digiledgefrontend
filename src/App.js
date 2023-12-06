@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import StudentList from './StudentList';
 import AddStudent from './AddStudent';
 import './App.css'; 
+import "./common.css"
 
 function App() {
   return (

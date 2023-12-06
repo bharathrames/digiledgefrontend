@@ -116,35 +116,44 @@ function StudentList() {
 
   return (
     <div>
-      <Typography variant="h2" className="studentlist">
-        Student List
-      </Typography>
+    <Typography variant="h2" className="studentlist">
+      Student List
+    </Typography>
 
-      {loading ? (
-        <Loading />
-      ) : (
-        <Grid container spacing={3}>
-          {students.map((student) => (
-            <Grid item key={student._id} xs={12} sm={6} md={4} lg={3}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6">{student.name}</Typography>
-                  <Typography variant="body2">Age: {student.age}</Typography>
-                  <Typography variant="body2">Education: {student.Education}</Typography>
-                </CardContent>
-                <CardActions>
-                  <Button color="primary" onClick={() => handleEditClick(student)}>
-                    Edit
-                  </Button>
-                  <Button color="secondary" onClick={() => handleDeleteClick(student._id)}>
-                    Delete
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      )}
+    {loading ? (
+      <Loading />
+    ) : (
+      <div>
+        {students.length === 0 ? (
+          <Typography variant="body1" className="no-students-message">
+            No students data. Add a student.
+          </Typography>
+        ) : (
+          <Grid container spacing={3}>
+            {students.map((student) => (
+              <Grid item key={student._id} xs={12} sm={6} md={4} lg={3}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6">{student.name}</Typography>
+                    <Typography variant="body2">Age: {student.age}</Typography>
+                    <Typography variant="body2">Education: {student.Education}</Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button color="primary" onClick={() => handleEditClick(student)}>
+                      Edit
+                    </Button>
+                    <Button color="secondary" onClick={() => handleDeleteClick(student._id)}>
+                      Delete
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        )}
+      </div>
+    )}
+
 
       {editMode && selectedStudent && (
         <div className="mt-3">

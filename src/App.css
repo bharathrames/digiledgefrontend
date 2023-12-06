@@ -39,3 +39,7 @@ nav a:hover {
     margin: 10px 0;
   }
 }
+
+.no-students-message{
+  text-align: center;
+}
